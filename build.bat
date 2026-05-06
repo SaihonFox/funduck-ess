@@ -1,0 +1,1 @@
+pyinstaller --windowed --name FunduckESS --icon=icons/duckling.ico --add-data "icons;icons" Shell.py

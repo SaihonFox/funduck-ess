@@ -77,7 +77,3 @@ class CheckResultsPanel(QDockWidget):
 			addMsg('No problems detected', kCheckOK)
 		
 		return self.severity
-
-
-if __name__ == '__main__':
-	pass

@@ -1,0 +1,45 @@
+name: Build & Release FunduckESS
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        include:
+          - os: windows-latest
+            data_sep: ';'
+          - os: ubuntu-latest
+            data_sep: ':'
+          - os: macos-latest
+            data_sep: ':'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - run: pip install pyinstaller
+      - run: pip install -r requirements.txt || true
+
+      - name: Building
+        run: pyinstaller --windowed --noconfirm --name FunduckESS --icon=icons/duckling.ico --add-data "icons${{ matrix.data_sep }}icons" Shell.py
+
+      - name: Archive
+        run: tar -czf FunduckESS-${{ runner.os }}.tar.gz -C dist FunduckESS
+
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: FunduckESS-${{ runner.os }}.tar.gz
+          draft: true
+          name: Release ${{ github.ref_name }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

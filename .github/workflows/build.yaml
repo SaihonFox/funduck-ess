@@ -44,6 +44,6 @@ jobs:
         with:
           files: FunduckESS-${{ runner.os }}.tar.gz
           draft: true
-          name: Release ${{ github.ref_name }}
+          name: 'Release'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

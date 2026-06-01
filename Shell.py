@@ -392,9 +392,6 @@ class MainW(QMainWindow):
 		DescriptionDialog().exec_()
 	
 	def doRunES(self):
-		if self.check_results.doCheck() >= kCheckError:
-			QMessageBox.warning(self, kProgramName, 'There are errors in the expert system.');
-			return
 		ESWindow().exec_()
 	
 	def doGoals(self):
